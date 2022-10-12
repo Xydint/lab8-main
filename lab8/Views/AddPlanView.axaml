@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="lab8.Views.AddPlanView"
+        Title="Добавить заметку">
+	<Window.Styles>
+		<Style Selector="TextBlock.t">
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+		</Style>
+		<Style Selector="Button.b">
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="Image.i">
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+	</Window.Styles>
+	<Grid RowDefinitions="60*,180*,180*,60*,60*,60*">
+		<TextBox Classes="t" Grid.Row="0"
+				 Watermark="Введите название заметки" Text="{Binding PlanToReturn.Name}"/>
+		<TextBox Classes="t" Grid.Row="1"
+				 Watermark="Введите текст заметки" Text="{Binding PlanToReturn.Description}"/>
+		<Image Grid.Row="2" Source="{Binding PlanToReturn.Image}"/>
+		<Button Name="AddImage" Classes="b" Grid.Row="3" Content="Add Image"/>
+		<Button Name="OK" Classes="b" Grid.Row="4" Content="OK" IsEnabled="{Binding ButtonEnable}"/>
+		<Button Name="Cancel" Classes="b" Grid.Row="5" Content="Cancel"/>
+	</Grid>
+</Window>

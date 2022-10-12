@@ -1,0 +1,160 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:lab8.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="lab8.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="lab8">
+	<Window.Styles>
+		<Style Selector="MenuItem.menu">
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+		</Style>
+		<Style Selector="TextBlock.header">
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+		<Style Selector="TextBox.planHeader">
+		</Style>
+		<Style Selector="TextBox.planTask">
+			<Setter Property="MinHeight" Value="100"/>
+		</Style>
+		<Style Selector="Button.plan">
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		</Style>
+		<Style Selector="Button.add">
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+			<Setter Property="Background" Value="Tan"/>
+		</Style>
+	</Window.Styles>
+
+
+	<Design.DataContext>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<Grid RowDefinitions="6*,90*">
+		<DockPanel Grid.Row="0" VerticalAlignment="Stretch" Background="BlanchedAlmond">
+			<Menu VerticalAlignment="Stretch" DockPanel.Dock="Top">
+				<MenuItem Classes="menu" Header="_File">
+					<MenuItem Name="New" Header="_New"/>
+					<MenuItem Name="Save" Header="_Save"/>
+					<MenuItem Name="Load" Header="_Load"/>
+					<Separator/>
+					<MenuItem Name="Exit" Header="_Exit"/>
+				</MenuItem>
+				<MenuItem Classes="menu" Name="About" Header="_About"/>
+			</Menu>
+		</DockPanel>
+		<Grid Grid.Row="1" ColumnDefinitions="*,*,*" Background="AliceBlue">
+			<Grid Grid.Column="0" RowDefinitions="4*,45*,4*">
+				<Border Grid.Row="0" BorderThickness="0, 1, 2, 2" BorderBrush="Black">
+					<TextBlock Classes="header">Запланировано</TextBlock>
+				</Border>
+				<Border Grid.Row="1" BorderThickness="0, 0, 2, 0" BorderBrush="Black">
+					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+						<ItemsControl Items="{Binding ItemsPlanned}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Expander HorizontalContentAlignment="Stretch" Header="{Binding Name}">
+										<StackPanel Orientation="Vertical">
+											<TextBlock Text="Header:"/>
+											<TextBox Classes="planHeader" Text="{Binding Name}"/>
+											<TextBlock Text="Task:"/>
+											<TextBox Classes="planTask" Text="{Binding Description}"/>
+											<Image Source="{Binding Image}"/>
+											<Button Classes="plan" Name="AddImage" Content="Add Image"
+													Command="{Binding $parent[ItemsControl].DataContext.ButtonAddImage}"
+													CommandParameter="{Binding}"/>
+											<Button Classes="plan" Name="Delete" Content="Delete"
+													Command="{Binding $parent[ItemsControl].DataContext.ButtonDeletePlanned}"
+													CommandParameter="{Binding}"/>
+										</StackPanel>
+									</Expander>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+				</Border>
+				<Border Grid.Row="2" BorderThickness="0, 2, 2, 0" BorderBrush="Black" Background="Tan">
+					<Button Name="AddPlanned" Classes="add" Content="Add"/>
+				</Border>
+			</Grid>
+			<Grid Grid.Column="1" RowDefinitions="4*,45*,4*">
+				<Border Grid.Row="0" BorderThickness="0, 1, 0, 2" BorderBrush="Black">
+					<TextBlock Classes="header">В работе</TextBlock>
+				</Border>
+				<Border Grid.Row="1" BorderThickness="0, 0, 0, 0" BorderBrush="Black">
+					<ScrollViewer VerticalScrollBarVisibility="Auto">
+						<ItemsControl Items="{Binding ItemsInWork}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Expander HorizontalContentAlignment="Stretch" Header="{Binding Name}">
+										<StackPanel Orientation="Vertical">
+											<TextBlock Text="Header:"/>
+											<TextBox Classes="planHeader" Text="{Binding Name}"/>
+											<TextBlock Text="Task:"/>
+											<TextBox Classes="planTask" Text="{Binding Description}"/>
+											<Image Source="{Binding Image}"/>
+											<Button Classes="plan" Name="AddImage" Content="Add Image"
+													Command="{Binding $parent[ItemsControl].DataContext.ButtonAddImage}"
+													CommandParameter="{Binding}"/>
+											<Button Classes="plan" Name="Delete" Content="Delete"
+													Command="{Binding $parent[ItemsControl].DataContext.ButtonDeleteInWork}"
+													CommandParameter="{Binding}"/>
+										</StackPanel>
+									</Expander>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+				</Border>
+				<Border Grid.Row="2" BorderThickness="0, 2, 0, 0" BorderBrush="Black" Background="Tan">
+					<Button Name="AddInWork" Classes="add" Content="Add"/>
+				</Border>
+			</Grid>
+			<Grid Grid.Column="2" RowDefinitions="4*,45*,4*">
+				<Border Grid.Row="0" BorderThickness="2, 1, 0, 2" BorderBrush="Black">
+					<TextBlock Classes="header">Завершено</TextBlock>
+				</Border>
+				<Border Grid.Row="1" BorderThickness="2, 0, 0, 0" BorderBrush="Black">
+					<ScrollViewer VerticalScrollBarVisibility="Auto">
+						<ItemsControl Items="{Binding ItemsCompleted}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Expander HorizontalContentAlignment="Stretch" Header="{Binding Name}">
+										<StackPanel Orientation="Vertical">
+											<TextBlock Text="Header:"/>
+											<TextBox Classes="planHeader" Text="{Binding Name}"/>
+											<TextBlock Text="Task:"/>
+											<TextBox Classes="planTask" Text="{Binding Description}"/>
+											<Image Source="{Binding Image}"/>
+											<Button Classes="plan" Name="AddImage" Content="Add Image"
+													Command="{Binding $parent[ItemsControl].DataContext.ButtonAddImage}"
+													CommandParameter="{Binding}"/>
+											<Button Classes="plan" Name="Delete" Content="Delete"
+													Command="{Binding $parent[ItemsControl].DataContext.ButtonDeleteCompleted}"
+													CommandParameter="{Binding}"/>
+										</StackPanel>
+									</Expander>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+				</Border>
+				<Border Grid.Row="2" BorderThickness="2, 2, 0, 0" BorderBrush="Black" Background="Tan">
+					<Button Name="AddCompleted" Classes="add" Content="Add"/>
+				</Border>
+			</Grid>
+		</Grid>
+
+	</Grid>
+
+</Window>
